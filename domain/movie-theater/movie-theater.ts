@@ -1,12 +1,13 @@
 import { randomUUID } from "crypto"
 import { Address } from "./address"
 import { Room } from "./room"
+import { ChairType } from "./chair-type"
 
 type MovieTheaterProps = {
     id: string
     name: string
     address: Address
-    chairCatalog: Map<string, number>
+    chairTypes: ChairType[]
     rooms: Room[]
 }
 
@@ -19,7 +20,7 @@ export class MovieTheater {
     id: string
     name: string
     address: Address
-    chairCatalog: Map<string, number>
+    chairTypes: ChairType[]
     rooms: Room[]
     
     static create({
@@ -30,7 +31,7 @@ export class MovieTheater {
             id: randomUUID(),
             name,
             address,
-            chairCatalog: new Map(),
+            chairTypes: [],
             rooms: []
         })
     }
@@ -39,7 +40,7 @@ export class MovieTheater {
         id,
         name,
         address,
-        chairCatalog,
+        chairTypes,
         rooms
     }: MovieTheaterProps) {
         if (!id) {
@@ -54,19 +55,63 @@ export class MovieTheater {
             throw new Error('Address is required')
         }
 
-        if (!chairCatalog) {
-            throw new Error('Chair Catalog is required')
+        if (!chairTypes) {
+            throw new Error('Chair Types are required')
         }
 
         if (!rooms) {
-            throw new Error('Room is required')
+            throw new Error('Rooms are required')
         }
 
         this.id = id
         this.name = name
         this.address = address
-        this.chairCatalog = chairCatalog
+        this.chairTypes = chairTypes
         this.rooms = rooms
+    }
+    
+    addChairType(newChairType: ChairType) {
+        const hasChairType = this.chairTypes.some(chairType => chairType.getName() === newChairType.getName())
+        if (hasChairType) {
+            throw new Error(`Chair Type ${newChairType.getName()} already exists`)
+        }
+
+        this.chairTypes.push(newChairType)
+    }
+
+    editChairType({
+        chairTypeId,
+        chairTypeName,
+        chairTypePrice
+    }) {
+        const chairType = this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+        if (!chairType) {
+            throw new Error(`Chair Type id ${chairTypeId} not found`)
+        }
+
+        chairType.setName(chairTypeName ?? chairType.getName())
+        chairType.setPrice(chairTypePrice ?? chairType.getPrice())
+    }
+
+    removeChairTypeByName(chairTypeName: string) {
+        this.chairTypes = this.chairTypes.filter(chairType => chairTypeName !== chairType.getName())
+    }
+
+    addRoom(newRoom: Room) {
+        if (!newRoom) {
+            throw new Error('Room is required')
+        }
+
+        const hasRoomWithSameName = this.rooms.some(room => room.getName() === newRoom.getName())
+        if (hasRoomWithSameName) {
+            throw new Error(`Room name ${newRoom.getName()} already exists`)
+        }
+
+        this.rooms.push(newRoom)
+    }
+
+    removeRoomById(roomId: string) {
+        this.rooms = this.rooms.filter(room => roomId !== room.getId())
     }
 }
 

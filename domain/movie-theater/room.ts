@@ -12,9 +12,9 @@ type CreateRoomProps = {
 }
 
 export class Room {
-    id: string
-    name: string
-    chairMatrix: ChairMatrix
+    private id: string
+    private name: string
+    private chairMatrix: ChairMatrix
     
     static create({
         name,
@@ -47,6 +47,14 @@ export class Room {
         this.id = id
         this.name = name
         this.chairMatrix = chairMatrix
+    }
+
+    getId() {
+        return this.id
+    }
+
+    getName() {
+        return this.name
     }
 }
 
