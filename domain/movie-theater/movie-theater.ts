@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto"
 import { Address } from "./address"
 import { Room } from "./room"
 
@@ -9,6 +10,11 @@ type MovieTheaterProps = {
     rooms: Room[]
 }
 
+type CreateMovieTheaterProps = {
+    name: string
+    address: Address
+}
+
 export class MovieTheater {
     id: string
     name: string
@@ -16,6 +22,19 @@ export class MovieTheater {
     chairCatalog: Map<string, number>
     rooms: Room[]
     
+    static create({
+        name,
+        address
+    }: CreateMovieTheaterProps) {
+        return new MovieTheater({
+            id: randomUUID(),
+            name,
+            address,
+            chairCatalog: new Map(),
+            rooms: []
+        })
+    }
+
     constructor({
         id,
         name,
@@ -39,7 +58,7 @@ export class MovieTheater {
             throw new Error('Chair Catalog is required')
         }
 
-        if (!rooms || rooms.length === 0) {
+        if (!rooms) {
             throw new Error('Room is required')
         }
 

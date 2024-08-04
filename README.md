@@ -3,7 +3,7 @@
 ## Regras de Negócio
 
 ### Cinema
-- Deve poder criar um cinema com no mínimo 1 sala
+- Deve poder criar um cinema sem sala
 - Deve poder editar quaisquer dados do cinema
 - Deve poder excluir um cinema caso não haja sessões ativas
 - Deve poder selecionar filmes da base de dados

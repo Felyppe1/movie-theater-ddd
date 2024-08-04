@@ -1,5 +1,12 @@
+import { randomUUID } from "crypto"
+
 type RoomProps = {
     id: string
+    name: string
+    chairMatrix: ChairMatrix
+}
+
+type CreateRoomProps = {
     name: string
     chairMatrix: ChairMatrix
 }
@@ -9,6 +16,17 @@ export class Room {
     name: string
     chairMatrix: ChairMatrix
     
+    static create({
+        name,
+        chairMatrix
+    }: CreateRoomProps): Room {
+        return new Room({
+            id: randomUUID(),
+            name,
+            chairMatrix
+        })
+    }
+
     constructor({
         id,
         name,
