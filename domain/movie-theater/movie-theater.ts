@@ -120,7 +120,26 @@ export class MovieTheater {
             throw new Error(`Room name ${newRoom.getName()} already exists`)
         }
 
+        const usedChairTypes = newRoom.getChairTypes()
+        const availableChairTypes = this.getAvailableChairTypes()
+
+        usedChairTypes.forEach(usedChairType => {
+            if (!availableChairTypes.has(usedChairType)) {
+                throw new Error (`Chair Type ${usedChairType} is unavailable`)
+            }
+        })
+
         this.rooms.push(newRoom)
+    }
+
+    getAvailableChairTypes() {
+        const availableChairTypes = new Set<string>()
+
+        for (const chairType of this.chairTypes) {
+            availableChairTypes.add(chairType.getName())
+        }
+
+        return availableChairTypes
     }
 
     removeRoomById(roomId: string) {

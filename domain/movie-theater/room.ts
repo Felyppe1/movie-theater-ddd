@@ -56,6 +56,10 @@ export class Room {
     getName() {
         return this.name
     }
+
+    getChairTypes() {
+        return this.chairMatrix.getChairTypes()
+    }
 }
 
 type ChairMatrixProps = {
@@ -63,7 +67,7 @@ type ChairMatrixProps = {
 }
 
 export class ChairMatrix {
-    matrix: Chair[][]
+    private matrix: Chair[][]
 
     constructor({
         matrix
@@ -80,7 +84,27 @@ export class ChairMatrix {
             if (nLineLength !== firstLineLength) {
                 throw new Error(`The ${n} line length is not equal to the first line's length`)
             }
-        } 
+        }
+
+        this.matrix = matrix
+    }
+
+    *getAllChairs() {
+        for (const row of this.matrix) {
+            for (const chair of row) {
+                yield chair
+            }
+        }
+    }
+
+    getChairTypes() {
+        const chairTypes = new Set<string>()
+
+        for (const chair of this.getAllChairs()) {
+            chairTypes.add(chair.getType())
+        }
+
+        return chairTypes
     }
 }
 
@@ -89,7 +113,7 @@ type ChairProps = {
 }
 
 export class Chair {
-    type: string
+    private type: string
 
     constructor({
         type
@@ -99,5 +123,9 @@ export class Chair {
         }
 
         this.type = type
+    }
+
+    getType() {
+        return this.type
     }
 }
