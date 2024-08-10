@@ -16,6 +16,12 @@ type CreateMovieTheaterProps = {
     address: Address
 }
 
+type EditChairTypeProps = {
+    chairTypeId: string
+    chairTypeName: string
+    chairTypePrice: number
+}
+
 export class MovieTheater {
     id: string
     name: string
@@ -71,9 +77,8 @@ export class MovieTheater {
     }
     
     addChairType(newChairType: ChairType) {
-        const hasChairType = this.chairTypes.some(chairType => chairType.getName() === newChairType.getName())
-        if (hasChairType) {
-            throw new Error(`Chair Type ${newChairType.getName()} already exists`)
+        if (this.isChairTypeAlreadyRegistered(newChairType.getName())) {
+            throw new Error(`Chair Type Name ${newChairType.getName()} already exists`)
         }
 
         this.chairTypes.push(newChairType)
@@ -83,18 +88,26 @@ export class MovieTheater {
         chairTypeId,
         chairTypeName,
         chairTypePrice
-    }) {
+    }: EditChairTypeProps) {
         const chairType = this.chairTypes.find(chairType => chairTypeId === chairType.getId())
         if (!chairType) {
             throw new Error(`Chair Type id ${chairTypeId} not found`)
+        }
+
+        if (this.isChairTypeAlreadyRegistered(chairTypeName)) {
+            throw new Error(`Chair Type Name ${chairTypeName} already exists`)
         }
 
         chairType.setName(chairTypeName ?? chairType.getName())
         chairType.setPrice(chairTypePrice ?? chairType.getPrice())
     }
 
-    removeChairTypeByName(chairTypeName: string) {
-        this.chairTypes = this.chairTypes.filter(chairType => chairTypeName !== chairType.getName())
+    removeChairTypeById(chairTypeId: string) {
+        this.chairTypes = this.chairTypes.filter(chairType => chairTypeId !== chairType.getId())
+    }
+
+    isChairTypeAlreadyRegistered(chairTypeName: string) {
+        return this.chairTypes.some(chairType => chairTypeName === chairType.getName())
     }
 
     addRoom(newRoom: Room) {
@@ -114,4 +127,3 @@ export class MovieTheater {
         this.rooms = this.rooms.filter(room => roomId !== room.getId())
     }
 }
-
