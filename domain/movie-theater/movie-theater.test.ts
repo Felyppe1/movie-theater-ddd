@@ -18,99 +18,158 @@ describe('Movie Theater', () => {
             })
         }
 
-        it.fails('should not be able to edit a chair type that does not exist', () => {
-            const movieTheater = createMovieTheater([])
+        describe('Add chair type', () => {
+            it('should be able to add chair type', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'normal',
+                        price: 10,
+                    })
+                ])
+            })
 
-            movieTheater.editChairType({
-                chairTypeId: '1',
-                chairTypeName: 'Edited normal',
-                chairTypePrice: 10
+            it('should be able to add chair types with different names', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'normal',
+                        price: 10,
+                    }),
+                    new ChairType({
+                        id: '2',
+                        name: 'd-box',
+                        price: 20,
+                    }),
+                ])
+            })
+
+            it.fails('should not be able to add chair types with the same id', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 10,
+                    }),
+                    new ChairType({
+                        id: '1',
+                        name: 'normal',
+                        price: 30,
+                    }),
+                ])
+            })
+    
+            it.fails('should not be able to add chair types with the same name', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 10,
+                    }),
+                    new ChairType({
+                        id: '2',
+                        name: 'd-box',
+                        price: 20,
+                    }),
+                ])
             })
         })
 
-        it('should be able to edit a chair type without modifying anything', () => {
-            const movieTheater = createMovieTheater([
-                new ChairType({
-                    id: '1',
-                    name: 'normal',
-                    price: 10
+        describe('Edit chair type', () => {
+            it.fails('should not be able to edit a chair type that does not exist', () => {
+                const movieTheater = createMovieTheater([])
+    
+                movieTheater.editChairType({
+                    chairTypeId: '1',
+                    chairTypeName: 'Edited normal',
+                    chairTypePrice: 10
                 })
-            ])
-
-            movieTheater.editChairType({
-                chairTypeId: '1',
-                chairTypeName: 'normal',
-                chairTypePrice: 10
             })
-        })
-
-        it('should be able to edit to a chair type name that does not exist yet', () => {
-            const movieTheater = createMovieTheater([
-                new ChairType({
-                    id: '1',
-                    name: 'd-box',
-                    price: 20
+    
+            it('should be able to edit a chair type without modifying anything', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'normal',
+                        price: 10
+                    })
+                ])
+    
+                movieTheater.editChairType({
+                    chairTypeId: '1',
+                    chairTypeName: 'normal',
+                    chairTypePrice: 10
                 })
-            ])
-
-            movieTheater.editChairType({
-                chairTypeId: '1',
-                chairTypeName: 'Edited d-box',
-                chairTypePrice: 20
             })
-
-            expect(movieTheater.getChairTypes()).toEqual([
-                new ChairType({
-                    id: '1',
-                    name: 'Edited d-box',
-                    price: 20
+    
+            it('should be able to edit to a chair type name that does not exist yet', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 20
+                    })
+                ])
+    
+                movieTheater.editChairType({
+                    chairTypeId: '1',
+                    chairTypeName: 'Edited d-box',
+                    chairTypePrice: 20
                 })
-            ])
-        })
-
-        it.fails('should not be able to edit a chair type name to an existing one', () => {
-            const movieTheater = createMovieTheater([
-                new ChairType({
-                    id: '1',
-                    name: 'd-box',
-                    price: 20
-                }),
-                new ChairType({
-                    id: '2',
-                    name: 'normal',
-                    price: 10
-                })
-            ])
-
-            movieTheater.editChairType({
-                chairTypeId: '1',
-                chairTypeName: 'normal',
-                chairTypePrice: 20
+    
+                expect(movieTheater.getChairTypes()).toEqual([
+                    new ChairType({
+                        id: '1',
+                        name: 'Edited d-box',
+                        price: 20
+                    })
+                ])
             })
-        })
-
-        it("should be able to edit a chair type price", () => {
-            const movieTheater = createMovieTheater([
-                new ChairType({
-                    id: '1',
-                    name: 'd-box',
-                    price: 20
+    
+            it.fails('should not be able to edit a chair type name to an existing one', () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 20
+                    }),
+                    new ChairType({
+                        id: '2',
+                        name: 'normal',
+                        price: 10
+                    })
+                ])
+    
+                movieTheater.editChairType({
+                    chairTypeId: '1',
+                    chairTypeName: 'normal',
+                    chairTypePrice: 20
                 })
-            ])
-
-            movieTheater.editChairType({
-                chairTypeId: '1',
-                chairTypeName: 'd-box',
-                chairTypePrice: 50
             })
-
-            expect(movieTheater.getChairTypes()).toEqual([
-                new ChairType({
-                    id: '1',
-                    name: 'd-box',
-                    price: 50
+    
+            it("should be able to edit a chair type price", () => {
+                const movieTheater = createMovieTheater([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 20
+                    })
+                ])
+    
+                movieTheater.editChairType({
+                    chairTypeId: '1',
+                    chairTypeName: 'd-box',
+                    chairTypePrice: 50
                 })
-            ])
+    
+                expect(movieTheater.getChairTypes()).toEqual([
+                    new ChairType({
+                        id: '1',
+                        name: 'd-box',
+                        price: 50
+                    })
+                ])
+            })
         })
     })
 })

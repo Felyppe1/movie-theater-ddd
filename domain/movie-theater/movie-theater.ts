@@ -72,12 +72,21 @@ export class MovieTheater {
         this.id = id
         this.name = name
         this.address = address
-        this.chairTypes = chairTypes
+        this.chairTypes = []
         this.rooms = rooms
+        chairTypes.forEach(chairType => this.addChairType(chairType))
     }
     
     addChairType(newChairType: ChairType) {
-        if (this.doesChairTypeNameAlreadyExist(newChairType.getName())) {
+        const chairTypeFoundById = this.findChairTypeById(newChairType.getId())
+
+        if (chairTypeFoundById) {
+            throw new Error(`Chair Type id ${newChairType.getId()} already exists`)
+        }
+
+        const chairTypeFoundByName = this.findChairTypeByName(newChairType.getName())
+        
+        if (chairTypeFoundByName) {
             throw new Error(`Chair Type Name ${newChairType.getName()} already exists`)
         }
 
@@ -89,13 +98,13 @@ export class MovieTheater {
         chairTypeName,
         chairTypePrice
     }: EditChairTypeProps) {
-        const foundChairType = this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+        const foundChairType = this.findChairTypeById(chairTypeId)
         
         if (!foundChairType) {
             throw new Error(`Chair Type id ${chairTypeId} not found`)
         }
 
-        const chairTypeFoundByName = this.chairTypes.find(chairType => chairTypeName === chairType.getName())
+        const chairTypeFoundByName = this.findChairTypeByName(chairTypeName)
         
         if (chairTypeFoundByName && chairTypeFoundByName.getId() !== chairTypeId) {
             throw new Error(`Chair Type Name ${chairTypeName} already exists`)
@@ -107,6 +116,14 @@ export class MovieTheater {
 
     getChairTypes() {
         return this.chairTypes
+    }
+
+    findChairTypeById(chairTypeId: string) {
+        return this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+    }
+
+    findChairTypeByName(chairTypeName: string) {
+        return this.chairTypes.find(chairType => chairTypeName === chairType.getName())
     }
 
     removeChairTypeById(chairTypeId: string) {
