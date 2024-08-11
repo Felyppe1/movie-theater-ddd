@@ -76,6 +76,14 @@ export class MovieTheater {
         this.rooms = rooms
         chairTypes.forEach(chairType => this.addChairType(chairType))
     }
+
+    findChairTypeById(chairTypeId: string) {
+        return this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+    }
+
+    findChairTypeByName(chairTypeName: string) {
+        return this.chairTypes.find(chairType => chairTypeName === chairType.getName())
+    }
     
     addChairType(newChairType: ChairType) {
         const chairTypeFoundById = this.findChairTypeById(newChairType.getId())
@@ -114,24 +122,28 @@ export class MovieTheater {
         foundChairType.setPrice(chairTypePrice)
     }
 
+    removeChairTypeById(chairTypeId: string) {
+        const someRoomIsUsingTypeId = this.rooms.some(room => room.isAnyChairUsingTypeId(chairTypeId))
+
+        if (someRoomIsUsingTypeId) {
+            throw Error(`Some room is using chair type id ${chairTypeId}`)
+        }
+        
+        this.chairTypes = this.chairTypes.filter(chairType => chairTypeId !== chairType.getId())
+    }
+
     getChairTypes() {
         return this.chairTypes
     }
 
-    findChairTypeById(chairTypeId: string) {
-        return this.chairTypes.find(chairType => chairTypeId === chairType.getId())
-    }
+    getAvailableChairTypes() {
+        const availableChairTypes = new Set<string>()
 
-    findChairTypeByName(chairTypeName: string) {
-        return this.chairTypes.find(chairType => chairTypeName === chairType.getName())
-    }
+        for (const chairType of this.chairTypes) {
+            availableChairTypes.add(chairType.getName())
+        }
 
-    removeChairTypeById(chairTypeId: string) {
-        this.chairTypes = this.chairTypes.filter(chairType => chairTypeId !== chairType.getId())
-    }
-
-    doesChairTypeNameAlreadyExist(chairTypeName: string) {
-        return this.chairTypes.some(chairType => chairTypeName === chairType.getName())
+        return availableChairTypes
     }
 
     addRoom(newRoom: Room) {
@@ -156,14 +168,8 @@ export class MovieTheater {
         this.rooms.push(newRoom)
     }
 
-    getAvailableChairTypes() {
-        const availableChairTypes = new Set<string>()
+    getUsedChairTypes() {
 
-        for (const chairType of this.chairTypes) {
-            availableChairTypes.add(chairType.getName())
-        }
-
-        return availableChairTypes
     }
 
     removeRoomById(roomId: string) {

@@ -60,6 +60,10 @@ export class Room {
     getChairTypes() {
         return this.chairMatrix.getChairTypes()
     }
+
+    isAnyChairUsingTypeId(chairTypeId: string) {
+        return this.chairMatrix.isAnyChairUsingTypeId(chairTypeId)
+    }
 }
 
 type ChairMatrixProps = {
@@ -101,10 +105,16 @@ export class ChairMatrix {
         const chairTypes = new Set<string>()
 
         for (const chair of this.getAllChairs()) {
-            chairTypes.add(chair.getType())
+            chairTypes.add(chair.isUsingChairTypeId())
         }
 
         return chairTypes
+    }
+
+    isAnyChairUsingTypeId(chairTypeId: string) {
+        return this.matrix.some(row => {
+            return row.some(chair => chair.isUsingChairTypeId(chairTypeId))
+        })
     }
 }
 
@@ -113,7 +123,7 @@ type ChairProps = {
 }
 
 export class Chair {
-    private type: string
+    private typeId: string
 
     constructor({
         type
@@ -122,10 +132,10 @@ export class Chair {
             throw new Error('Type is required')
         }
 
-        this.type = type
+        this.typeId = type
     }
 
-    getType() {
-        return this.type
+    isUsingChairTypeId(chairTypeId: string) {
+        return this.typeId === chairTypeId
     }
 }
