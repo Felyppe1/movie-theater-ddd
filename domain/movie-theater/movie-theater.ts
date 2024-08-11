@@ -77,7 +77,7 @@ export class MovieTheater {
     }
     
     addChairType(newChairType: ChairType) {
-        if (this.isChairTypeAlreadyRegistered(newChairType.getName())) {
+        if (this.doesChairTypeNameAlreadyExist(newChairType.getName())) {
             throw new Error(`Chair Type Name ${newChairType.getName()} already exists`)
         }
 
@@ -89,24 +89,31 @@ export class MovieTheater {
         chairTypeName,
         chairTypePrice
     }: EditChairTypeProps) {
-        const chairType = this.chairTypes.find(chairType => chairTypeId === chairType.getId())
-        if (!chairType) {
+        const foundChairType = this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+        
+        if (!foundChairType) {
             throw new Error(`Chair Type id ${chairTypeId} not found`)
         }
 
-        if (this.isChairTypeAlreadyRegistered(chairTypeName)) {
+        const chairTypeFoundByName = this.chairTypes.find(chairType => chairTypeName === chairType.getName())
+        
+        if (chairTypeFoundByName && chairTypeFoundByName.getId() !== chairTypeId) {
             throw new Error(`Chair Type Name ${chairTypeName} already exists`)
         }
 
-        chairType.setName(chairTypeName ?? chairType.getName())
-        chairType.setPrice(chairTypePrice ?? chairType.getPrice())
+        foundChairType.setName(chairTypeName)
+        foundChairType.setPrice(chairTypePrice)
+    }
+
+    getChairTypes() {
+        return this.chairTypes
     }
 
     removeChairTypeById(chairTypeId: string) {
         this.chairTypes = this.chairTypes.filter(chairType => chairTypeId !== chairType.getId())
     }
 
-    isChairTypeAlreadyRegistered(chairTypeName: string) {
+    doesChairTypeNameAlreadyExist(chairTypeName: string) {
         return this.chairTypes.some(chairType => chairTypeName === chairType.getName())
     }
 
