@@ -3,20 +3,28 @@
 ## Regras de Negócio
 
 ### Cinema
-- Deve poder criar um cinema sem sala
-- Deve poder editar quaisquer dados do cinema
+- Deve poder criar um cinema sem tipos de cadeira ou salas cadastrados
+- Deve poder editar nome e endereço
+- Deve poder adicionar tipos de cadeira
+- Nome de tipo de cadeira deve ser único por cinema
+- Deve poder editar nome do tipo de cadeira
+- O que acontece ao alterar valor de um tipo de cadeira?
 - Deve poder excluir um cinema caso não haja sessões ativas
-- Deve poder selecionar filmes da base de dados
-- Não deve poder seleciona filmes fora do período de exibição
+- Deve poder adicionar filmes da base de dados ao catálogo de filmes do cinema
+- Não deve poder adicionar filmes fora do período de exibição ao catálogo
+- Deve poder excluir um filme do catálogo se este não estiver sido adicionado a alguma sessão
+- Deve poder adicionar salas
+- Número da sala deve ser único por cinema
+- Deve poder editar número da sala
+- Deve poder editar formato da sala caso não haja sessão ativa
 
 ### Sala
-- Deve poder criar uma sala com no mínimo 1 cadeira
-- Não deve poder criar sala com mesmo número no mesmo cinema
-- Deve poder editar quaisquer dados da sala
-- Não deve poder remover cadeira se houver sessão com a cadeira selecionada
+- Deve conter pelo menos uma cadeira
+- Todas as linhas da matriz da sala deve ter o mesmo número de colunas
 
 ### Cadeira
 - Não deve poder ter cadeiras com tipos iguais e valores diferentes na mesma sala *
+
 
 ### Filme
 - Deve poder cadastrar um filme
