@@ -7,16 +7,14 @@
 - Deve poder editar nome e endereço
 - Deve poder adicionar tipos de cadeira
 - Nome de tipo de cadeira deve ser único por cinema
-- Deve poder editar nome do tipo de cadeira
-- O que acontece ao alterar valor de um tipo de cadeira?
-- Deve poder excluir um cinema caso não haja sessões ativas
+- Deve poder editar nome e valor do tipo de cadeira
+- Deve poder excluir um cinema caso haja apenas sessões finalizadas
 - Deve poder adicionar filmes da base de dados ao catálogo de filmes do cinema
-- Não deve poder adicionar filmes fora do período de exibição ao catálogo
-- Deve poder excluir um filme do catálogo se este não estiver sido adicionado a alguma sessão
+- Deve poder excluir um filme do catálogo se este estiver apenas em sessões finalizadas
 - Deve poder adicionar salas
 - Número da sala deve ser único por cinema
-- Deve poder editar número da sala
-- Deve poder editar formato da sala caso não haja sessão ativa
+- Deve poder editar número e formato da sala
+- Todas as cadeiras devem estar no catálogo do cinema
 
 ### Sala
 - Deve conter pelo menos uma cadeira

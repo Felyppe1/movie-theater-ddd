@@ -7,7 +7,7 @@ type MovieTheaterProps = {
     id: string
     name: string
     address: Address
-    chairTypes: ChairType[]
+    chairCatalog: ChairType[]
     rooms: Room[]
 }
 
@@ -26,7 +26,7 @@ export class MovieTheater {
     id: string
     name: string
     address: Address
-    chairTypes: ChairType[]
+    chairCatalog: ChairType[]
     rooms: Room[]
     
     static create({
@@ -37,7 +37,7 @@ export class MovieTheater {
             id: randomUUID(),
             name,
             address,
-            chairTypes: [],
+            chairCatalog: [],
             rooms: []
         })
     }
@@ -46,7 +46,7 @@ export class MovieTheater {
         id,
         name,
         address,
-        chairTypes,
+        chairCatalog,
         rooms
     }: MovieTheaterProps) {
         if (!id) {
@@ -61,7 +61,7 @@ export class MovieTheater {
             throw new Error('Address is required')
         }
 
-        if (!chairTypes) {
+        if (!chairCatalog) {
             throw new Error('Chair Types are required')
         }
 
@@ -72,17 +72,17 @@ export class MovieTheater {
         this.id = id
         this.name = name
         this.address = address
-        this.chairTypes = []
+        this.chairCatalog = []
         this.rooms = rooms
-        chairTypes.forEach(chairType => this.addChairType(chairType))
+        chairCatalog.forEach(chairType => this.addChairType(chairType))
     }
 
     findChairTypeById(chairTypeId: string) {
-        return this.chairTypes.find(chairType => chairTypeId === chairType.getId())
+        return this.chairCatalog.find(chairType => chairTypeId === chairType.getId())
     }
 
     findChairTypeByName(chairTypeName: string) {
-        return this.chairTypes.find(chairType => chairTypeName === chairType.getName())
+        return this.chairCatalog.find(chairType => chairTypeName === chairType.getName())
     }
     
     addChairType(newChairType: ChairType) {
@@ -98,7 +98,7 @@ export class MovieTheater {
             throw new Error(`Chair Type Name ${newChairType.getName()} already exists`)
         }
 
-        this.chairTypes.push(newChairType)
+        this.chairCatalog.push(newChairType)
     }
 
     editChairType({
@@ -123,27 +123,21 @@ export class MovieTheater {
     }
 
     removeChairTypeById(chairTypeId: string) {
-        const someRoomIsUsingTypeId = this.rooms.some(room => room.isAnyChairUsingTypeId(chairTypeId))
+        const typeIdIsBeingUsedBySomeRoom = this.rooms.some(room => room.isAnyChairUsingTypeId(chairTypeId))
 
-        if (someRoomIsUsingTypeId) {
+        if (typeIdIsBeingUsedBySomeRoom) {
             throw Error(`Some room is using chair type id ${chairTypeId}`)
         }
         
-        this.chairTypes = this.chairTypes.filter(chairType => chairTypeId !== chairType.getId())
+        this.chairCatalog = this.chairCatalog.filter(chairType => chairTypeId !== chairType.getId())
     }
 
-    getChairTypes() {
-        return this.chairTypes
+    getChairCatalog() {
+        return this.chairCatalog
     }
 
-    getAvailableChairTypes() {
-        const availableChairTypes = new Set<string>()
-
-        for (const chairType of this.chairTypes) {
-            availableChairTypes.add(chairType.getName())
-        }
-
-        return availableChairTypes
+    getCatalogChairTypeIds() {
+        return this.chairCatalog.map(chairType => chairType.getId())
     }
 
     addRoom(newRoom: Room) {
@@ -156,14 +150,12 @@ export class MovieTheater {
             throw new Error(`Room name ${newRoom.getName()} already exists`)
         }
 
-        const usedChairTypes = newRoom.getChairTypes()
-        const availableChairTypes = this.getAvailableChairTypes()
+        const catalogChairTypeIds = this.getCatalogChairTypeIds()
+        const areAllChairsUsingTypesFromCatalog = newRoom.areAllChairsUsingTypesFromCatalog(catalogChairTypeIds)
 
-        usedChairTypes.forEach(usedChairType => {
-            if (!availableChairTypes.has(usedChairType)) {
-                throw new Error (`Chair Type ${usedChairType} is unavailable`)
-            }
-        })
+        if (!areAllChairsUsingTypesFromCatalog) {
+            throw new Error('All chairs in the room should be using chair types from the catalog')
+        }
 
         this.rooms.push(newRoom)
     }

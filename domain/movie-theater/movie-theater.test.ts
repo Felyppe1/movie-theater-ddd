@@ -13,7 +13,7 @@ describe('Movie Theater', () => {
                     number: 1,
                     zip: new Zip({ code: '12345678' })
                 }),
-                chairTypes,
+                chairCatalog: chairTypes,
                 rooms: []
             })
         }
@@ -117,7 +117,7 @@ describe('Movie Theater', () => {
                     chairTypePrice: 20
                 })
     
-                expect(movieTheater.getChairTypes()).toEqual([
+                expect(movieTheater.getChairCatalog()).toEqual([
                     new ChairType({
                         id: '1',
                         name: 'Edited d-box',
@@ -162,7 +162,7 @@ describe('Movie Theater', () => {
                     chairTypePrice: 50
                 })
     
-                expect(movieTheater.getChairTypes()).toEqual([
+                expect(movieTheater.getChairCatalog()).toEqual([
                     new ChairType({
                         id: '1',
                         name: 'd-box',
