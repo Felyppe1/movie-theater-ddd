@@ -14,7 +14,8 @@ describe('Movie Theater', () => {
                     zip: new Zip({ code: '12345678' })
                 }),
                 chairCatalog: chairTypes,
-                rooms: []
+                rooms: [],
+                schedules: []
             })
         }
 
