@@ -32,8 +32,6 @@ export class MovieTheater {
     schedules: Movie[]
 
     static create({ name, address }: CreateMovieTheaterProps) {
-        const test = "teste"
-        
         return new MovieTheater({
             id: randomUUID(),
             name,
