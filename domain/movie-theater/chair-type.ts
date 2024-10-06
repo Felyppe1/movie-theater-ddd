@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto"
+import { randomUUID } from 'crypto'
 
 type ChairTypeProps = {
     id: string
@@ -16,22 +16,15 @@ export class ChairType {
     private name: string
     private price: number
 
-    static create({
-        name,
-        price
-    }: CreateChairTypeProps) {
+    static create({ name, price }: CreateChairTypeProps) {
         return new ChairType({
             id: randomUUID(),
             name,
-            price
+            price,
         })
     }
 
-    constructor({
-        id,
-        name,
-        price
-    }: ChairTypeProps) {
+    constructor({ id, name, price }: ChairTypeProps) {
         if (!id) {
             throw new Error('Id is required')
         }

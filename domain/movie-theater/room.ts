@@ -1,5 +1,4 @@
-import { randomUUID } from "crypto"
-
+import { randomUUID } from 'crypto'
 
 type RoomProps = {
     id: string
@@ -16,23 +15,16 @@ export class Room {
     private id: string
     private name: string
     private chairMatrix: ChairMatrix
-    
-    static create({
-        name,
-        chairMatrix
-    }: CreateRoomProps): Room {
+
+    static create({ name, chairMatrix }: CreateRoomProps): Room {
         return new Room({
             id: randomUUID(),
             name,
-            chairMatrix
+            chairMatrix,
         })
     }
 
-    constructor({
-        id,
-        name,
-        chairMatrix
-    }: RoomProps) {
+    constructor({ id, name, chairMatrix }: RoomProps) {
         if (!id) {
             throw new Error('Id is required')
         }
@@ -59,7 +51,9 @@ export class Room {
     }
 
     areAllChairsUsingTypesFromCatalog(catalogChairTypeIds: string[]) {
-        return this.chairMatrix.areAllChairsUsingTypesFromCatalog(catalogChairTypeIds)
+        return this.chairMatrix.areAllChairsUsingTypesFromCatalog(
+            catalogChairTypeIds,
+        )
     }
 
     isAnyChairUsingTypeId(chairTypeId: string) {
@@ -74,9 +68,7 @@ type ChairMatrixProps = {
 export class ChairMatrix {
     private matrix: Chair[][]
 
-    constructor({
-        matrix
-    }: ChairMatrixProps) {
+    constructor({ matrix }: ChairMatrixProps) {
         if (!matrix || matrix.length === 0) {
             throw new Error('Matrix is required')
         }
@@ -85,9 +77,11 @@ export class ChairMatrix {
 
         for (let n = 1; n < matrix.length; n++) {
             const nLineLength = matrix[n].length
-            
+
             if (nLineLength !== firstLineLength) {
-                throw new Error(`The ${n} line length is not equal to the first line's length`)
+                throw new Error(
+                    `The ${n} line length is not equal to the first line's length`,
+                )
             }
         }
 
@@ -104,8 +98,9 @@ export class ChairMatrix {
 
     areAllChairsUsingTypesFromCatalog(catalogChairTypeIds: string[]) {
         for (const chair of this.getAllChairs()) {
-            const isChairUsingTypeFromCatalog = catalogChairTypeIds
-                .some(chairTypeId => chair.isUsingChairTypeId(chairTypeId))
+            const isChairUsingTypeFromCatalog = catalogChairTypeIds.some(
+                (chairTypeId) => chair.isUsingChairTypeId(chairTypeId),
+            )
 
             if (!isChairUsingTypeFromCatalog) {
                 return false
@@ -116,8 +111,8 @@ export class ChairMatrix {
     }
 
     isAnyChairUsingTypeId(chairTypeId: string) {
-        return this.matrix.some(row => {
-            return row.some(chair => chair.isUsingChairTypeId(chairTypeId))
+        return this.matrix.some((row) => {
+            return row.some((chair) => chair.isUsingChairTypeId(chairTypeId))
         })
     }
 }
@@ -129,9 +124,7 @@ type ChairProps = {
 export class Chair {
     private typeId: string
 
-    constructor({
-        typeId
-    }: ChairProps) {
+    constructor({ typeId }: ChairProps) {
         if (!typeId) {
             throw new Error('Type id is required')
         }

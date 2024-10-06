@@ -8,12 +8,8 @@ export class Address {
     number: number
     complement?: string
     zip: Zip
-    
-    constructor({
-        number,
-        complement,
-        zip
-    }: AddressProps) {
+
+    constructor({ number, complement, zip }: AddressProps) {
         if (!number) {
             throw new Error('Number is required')
         }
