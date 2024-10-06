@@ -21,6 +21,6 @@
     "vitest": "^2.0.5"
   },
   "lint-staged": {
-    "src/**/*.{ts,js}": "eslint 'domain/' --fix && prettier 'domain/' --write"
+    "src/**/*.{ts,js}": "eslint --fix && prettier --write"
   }
 }
