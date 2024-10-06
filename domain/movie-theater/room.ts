@@ -99,7 +99,7 @@ export class ChairMatrix {
     areAllChairsUsingTypesFromCatalog(catalogChairTypeIds: string[]) {
         for (const chair of this.getAllChairs()) {
             const isChairUsingTypeFromCatalog = catalogChairTypeIds.some(
-                (chairTypeId) => chair.isUsingChairTypeId(chairTypeId),
+                chairTypeId => chair.isUsingChairTypeId(chairTypeId),
             )
 
             if (!isChairUsingTypeFromCatalog) {
@@ -111,8 +111,8 @@ export class ChairMatrix {
     }
 
     isAnyChairUsingTypeId(chairTypeId: string) {
-        return this.matrix.some((row) => {
-            return row.some((chair) => chair.isUsingChairTypeId(chairTypeId))
+        return this.matrix.some(row => {
+            return row.some(chair => chair.isUsingChairTypeId(chairTypeId))
         })
     }
 }

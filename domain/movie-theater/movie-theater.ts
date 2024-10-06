@@ -80,20 +80,20 @@ export class MovieTheater {
         this.chairCatalog = []
         this.rooms = []
         this.schedules = []
-        chairCatalog.forEach((newChairType) => this.addChairType(newChairType))
-        rooms.forEach((newRoom) => this.addRoom(newRoom))
-        schedules.forEach((newMovie) => this.addMovie(newMovie))
+        chairCatalog.forEach(newChairType => this.addChairType(newChairType))
+        rooms.forEach(newRoom => this.addRoom(newRoom))
+        schedules.forEach(newMovie => this.addMovie(newMovie))
     }
 
     findChairTypeById(chairTypeId: string) {
         return this.chairCatalog.find(
-            (chairType) => chairTypeId === chairType.getId(),
+            chairType => chairTypeId === chairType.getId(),
         )
     }
 
     findChairTypeByName(chairTypeName: string) {
         return this.chairCatalog.find(
-            (chairType) => chairTypeName === chairType.getName(),
+            chairType => chairTypeName === chairType.getName(),
         )
     }
 
@@ -144,7 +144,7 @@ export class MovieTheater {
     }
 
     removeChairTypeById(chairTypeId: string) {
-        const typeIdIsBeingUsedBySomeRoom = this.rooms.some((room) =>
+        const typeIdIsBeingUsedBySomeRoom = this.rooms.some(room =>
             room.isAnyChairUsingTypeId(chairTypeId),
         )
 
@@ -153,7 +153,7 @@ export class MovieTheater {
         }
 
         this.chairCatalog = this.chairCatalog.filter(
-            (chairType) => chairTypeId !== chairType.getId(),
+            chairType => chairTypeId !== chairType.getId(),
         )
     }
 
@@ -162,7 +162,7 @@ export class MovieTheater {
     }
 
     getCatalogChairTypeIds() {
-        return this.chairCatalog.map((chairType) => chairType.getId())
+        return this.chairCatalog.map(chairType => chairType.getId())
     }
 
     addRoom(newRoom: Room) {
@@ -171,7 +171,7 @@ export class MovieTheater {
         }
 
         const hasRoomWithSameName = this.rooms.some(
-            (room) => room.getName() === newRoom.getName(),
+            room => room.getName() === newRoom.getName(),
         )
         if (hasRoomWithSameName) {
             throw new Error(`Room name ${newRoom.getName()} already exists`)
@@ -193,11 +193,11 @@ export class MovieTheater {
     getUsedChairTypes() {}
 
     removeRoomById(roomId: string) {
-        this.rooms = this.rooms.filter((room) => roomId !== room.getId())
+        this.rooms = this.rooms.filter(room => roomId !== room.getId())
     }
 
     findMovieById(movieId: string) {
-        return this.schedules.find((movie) => movieId === movie.getId())
+        return this.schedules.find(movie => movieId === movie.getId())
     }
 
     addMovie(newMovie: Movie) {
