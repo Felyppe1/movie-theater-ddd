@@ -1,5 +1,5 @@
-import { randomUUID } from "crypto";
-import { Address } from "./address"
+import { randomUUID } from 'crypto'
+import { Address } from './address'
 import { Room } from './room'
 import { ChairType } from './chair-type'
 
