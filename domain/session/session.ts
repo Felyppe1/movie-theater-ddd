@@ -107,3 +107,4 @@ export class Session {
         this.chairMatrix = chairMatrix
     }
 }
+
