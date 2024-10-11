@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto'
 
 export enum CHAIR_STATUS {
-    AVAILABLE,
-    OCCUPIED,
-    BLOCKED,
+    AVAILABLE = 'AVAILABLE',
+    OCCUPIED = 'OCCUPIED',
+    BLOCKED = 'BLOCKED',
 }
 
 export type ChairProps = {
