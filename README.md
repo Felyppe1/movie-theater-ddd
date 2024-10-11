@@ -25,6 +25,7 @@
 - Deve poder criar sessão
 - Não deve poder criar sessão na mesma sala e horários sobrepostos em um mesmo cinema
 - Não deve poder editar sessão depois de criada
+- Todas as linhas da matriz de cadeiras deve ter o mesmo número de colunas
 
 ### Cadeira da Sessão
 - Deve ficar bloqueada quando uma pessoa seleciona

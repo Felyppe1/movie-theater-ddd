@@ -12,7 +12,7 @@ type SessionProps = {
     chairMatrix: Chair[][]
 }
 
-type CreateSessionProps = {
+export type CreateSessionProps = {
     roomId: string
     movieId: string
     datetime: Date
@@ -78,22 +78,26 @@ export class Session {
             throw Error('subtitled is required')
         }
 
-        if (!technology) {
+        if (technology === undefined || technology === null) {
             throw Error('technology is required')
         }
 
-        if (!chairMatrix || chairMatrix.length === 0) {
+        if (
+            !chairMatrix ||
+            chairMatrix.length === 0 ||
+            chairMatrix[0].length === 0
+        ) {
             throw Error('chairMatrix is required')
         }
 
-        const firstLineLength = chairMatrix[0].length
+        const firstRowLength = chairMatrix[0].length
 
-        for (let n = 1; n < chairMatrix.length; n++) {
-            const nLineLength = chairMatrix[n].length
+        for (let i = 1; i < chairMatrix.length; i++) {
+            const nthRowLength = chairMatrix[i].length
 
-            if (nLineLength !== firstLineLength) {
+            if (nthRowLength !== firstRowLength) {
                 throw new Error(
-                    `The ${n} line length is not equal to the first line's length`,
+                    `The row ${i + 1} has a length of ${nthRowLength}, which is different from the first row's length: ${firstRowLength}`,
                 )
             }
         }
@@ -107,6 +111,3 @@ export class Session {
         this.chairMatrix = chairMatrix
     }
 }
-
-
-
