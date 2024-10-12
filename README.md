@@ -33,9 +33,13 @@
 
 ### Usuário
 - Deve poder criar usuário com email e CPF únicos
+- Deve poder adicionar cartões de pagamento aos cartões
+- Cartão deve ser único por usuário
+- Deve poder editar quaisquer dados do cartão
+- Deve poder excluir cartão de pagamento
 
 ### Celular
-- Deve poder criar celular com número ou DDD diferentes
+- Deve ter DDD e número diferentes
 
 ### Carrinho
 - Deve poder criar carrinho com no mínimo 1 item de carrinho
@@ -43,10 +47,6 @@
 
 ### Item de Carrinho
 
-
-### Cartão
-- Deve poder criar cartão
-- Deve poder editar quaisquer dados do cartão
 
 ### Pedido
 - Deve poder criar pedido
